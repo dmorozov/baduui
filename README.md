@@ -1,5 +1,10 @@
 # BaduUI
 
+First time:
+mkdir tools
+cd tools
+git clone https://github.com/google/j2cl.git j2cl
+
 Build:
 cd Source
 bazel build //TheApp/web:theapp
