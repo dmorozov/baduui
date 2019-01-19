@@ -1,0 +1,24 @@
+goog.provide('com.example.legacy.CustomElement');
+
+/* @extends {HTMLElement} */
+com.example.legacy.CustomElement = goog.defineClass(HTMLElement, {
+  constructor: function(instanceProperty){
+    var instance = Reflect.construct(HTMLElement, [], com.example.legacy.CustomElement);
+    instance.instanceProperty = instanceProperty;
+    return instance;
+  },
+  connectedCallback: function(){
+    console.log('connected');
+
+    if(!this.instanceProperty){
+        // load properties from attributes
+        this.instanceProperty = this.getAttribute("instanceProperty");
+    }
+
+    var span = document.createElement("span");
+    span.innerHTML = this.instanceProperty;
+    this.appendChild(span);
+  }
+});
+
+export com.example.legacy.CustomElement;

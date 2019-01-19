@@ -1,0 +1,22 @@
+goog.module('badu.ui.CustomElement2');
+
+var SomeClass = goog.require('my.namespace.SomeClass');
+
+exports = goog.defineClass(SomeClass, {
+    /**
+     * @param {string} value
+     */
+    constructor(value) {
+        SomeClass.call(this, 2);
+        /** @const */
+        this.prop = value;
+    },
+
+    /**
+     * @param {string} param
+     * @return {number}
+     */
+    method(param) {
+        return 0;
+    },
+});
