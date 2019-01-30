@@ -21,7 +21,7 @@ exports = goog.defineClass(BaduUI, {
      * @param {string} param
      * @return {number}
      */
-    start(param) {
+    start() {
         document.write('Ver 2: ' + this.getHelloWorld() + ' and JS!');
         return 0;
     },

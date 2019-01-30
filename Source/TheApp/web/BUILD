@@ -14,6 +14,9 @@ java_library(
     deps = [
         "//TheApp/app:the_app",
         "//BaduUI/platforms/web:badu_ui_web",
+        "@projectlibs//:jsinterop",
+        "@com_google_jsinterop_annotations_head//jar",
+        "@projectlibs//:elemental2",
     ],
 )
 j2cl_library(
@@ -23,6 +26,7 @@ j2cl_library(
         "src/main/resources/**/*.*"
     ]),
     deps = [
+        "@projectlibs//:jsinterop-j2cl",
         "//TheApp/app:the_app-j2cl",
         "//BaduUI/platforms/web:badu_ui_web-j2cl",
     ],

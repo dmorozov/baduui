@@ -1,6 +1,7 @@
 package com.badu.ui.core;
 
 import com.badu.ui.core.components.BUIWidget;
+import com.badu.ui.core.utils.PlatformLogger;
 
 public abstract class BUIApp {
 
@@ -17,5 +18,13 @@ public abstract class BUIApp {
    }
 
    private void initResources() {
+   }
+
+   protected BUIPlatform platform() {
+      return BUIPlatform.PLATFORM;
+   }
+
+   protected PlatformLogger log() {
+      return BUIPlatform.PLATFORM.log();
    }
 }
