@@ -3,7 +3,8 @@
 First time:
 - mkdir tools
 - cd tools
-- git clone https://github.com/google/j2cl.git j2cl
+stable: - git clone https://github.com/google/j2cl.git j2cl
+- git clonee https://github.com/dmorozov/j2cl j2cl
 
 Build:
 - cd Source

@@ -11,6 +11,37 @@ load_j2cl_repo_deps()
 load("@com_google_j2cl//build_defs:rules.bzl", "setup_j2cl_workspace")
 setup_j2cl_workspace()
 
+
+load(
+    "@io_bazel_rules_closure//closure:defs.bzl", "closure_repositories", "java_import_external",
+)
+java_import_external(
+    name = "com_google_javascript_closure_compiler",
+    licenses = ["reciprocal"],  # MPL v1.1 (Rhino AST), Apache 2.0 (JSCompiler)
+    jar_urls = [
+        "http://repo1.maven.org/maven2/com/google/javascript/closure-compiler-unshaded/v20180805/closure-compiler-unshaded-v20180805.jar",
+        # "https://oss.sonatype.org/content/repositories/snapshots/com/google/javascript/closure-compiler-unshaded/1.0-SNAPSHOT/closure-compiler-unshaded-1.0-20190131.000658-453.jar",
+    ],
+    jar_sha256 = "facf537aad7f643c92771f71bd8d9c9b6830ec2aa56e458d2411678d8dc32368",
+    deps = [
+        "@com_google_code_gson",
+        "@com_google_guava",
+        "@com_google_code_findbugs_jsr305",
+        "@com_google_protobuf//:protobuf_java",
+    ],
+    extra_build_file_content = "\n".join([
+        "java_binary(",
+        "    name = \"main\",",
+        "    main_class = \"com.google.javascript.jscomp.CommandLineRunner\",",
+        "    output_licenses = [\"unencumbered\"],",
+        "    runtime_deps = [",
+        "        \":com_google_javascript_closure_compiler\",",
+        "        \"@args4j\",",
+        "    ],",
+        ")",
+    ]),
+)
+
 new_local_repository(
     name = "projectlibs",
     path = "../libs",
