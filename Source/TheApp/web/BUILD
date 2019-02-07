@@ -2,9 +2,9 @@ load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_library")
 
 licenses(["notice"])  # Apache 2.0
 
-load("@com_google_j2cl//build_defs:rules.bzl", "j2cl_application")
 load("@com_google_j2cl//build_defs:rules.bzl", "j2cl_library")
-
+load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_binary", "closure_js_library", "web_library")
+load("@badu_ui//build_defs:rules.bzl", "web_app")
 
 java_library(
     name = "main_app",
@@ -22,8 +22,7 @@ java_library(
 j2cl_library(
     name = "main_app-j2cl",
     srcs = glob([
-        "src/main/java/**/*.java",
-        "src/main/resources/**/*.*"
+        "src/main/java/**/*.java"
     ]),
     deps = [
         "@projectlibs//:jsinterop-j2cl",
@@ -49,15 +48,23 @@ closure_js_library(
 #    use as a simple development server.
 #
 # Give it a try:
-#   $ bazel run third_party/java_src/j2cl/samples/helloworld/java/com/google/j2cl/samples/helloworld:helloworld_dev_server
+#   $ bazel run web:theapp_dev_server
 #
 # If you like to just save a file and see the results, you can just replace bazel w/ ibazel:
-#   $ ibazel run third_party/java_src/j2cl/samples/helloworld/java/com/google/j2cl/samples/helloworld:helloworld_dev_server
+#   $ ibazel run web:theapp_dev_server
+#
+# Navigate to 'http://localhost:6006/theapp_dev.html" in your browser
 #
 # See the installation instructions for ibazel here:
 # https://github.com/bazelbuild/bazel-watcher#installation
-j2cl_application(
+web_app(
     name = "theapp",
     entry_points = ["badu.web.theapp"],
-    deps = [":app"],
+    deps = [
+        ":app",
+    ],
+    assets = [
+        "//BaduUI/platforms/web:badu_ui_web_css",
+        "//BaduUI/platforms/web:badu_ui_web_images"
+    ]
 )
