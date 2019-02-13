@@ -1,3 +1,14 @@
+/* 
+CSS reset
+
+Source:
+html5doctor.com Reset Stylesheet
+v1.6.1
+Last Updated: 2010-09-17
+Author: Richard Clark - http://richclarkdesign.com 
+Twitter: @rich_clark
+*/
+
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 abbr, address, cite, code,
@@ -7,7 +18,7 @@ b, i,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, figcaption, figure,
+article, aside, canvas, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section, summary,
 time, mark, audio, video {
     margin:0;
@@ -24,7 +35,7 @@ body {
 }
 
 article,aside,details,figcaption,figure,
-footer,header,hgroup,menu,nav,section {
+footer,header,hgroup,menu,nav,section { 
     display:block;
 }
 
@@ -60,7 +71,7 @@ ins {
 /* change colours to suit your needs */
 mark {
     background-color:#ff9;
-    color:#000;
+    color:#000; 
     font-style:italic;
     font-weight:bold;
 }
@@ -83,7 +94,7 @@ table {
 hr {
     display:block;
     height:1px;
-    border:0;
+    border:0;   
     border-top:1px solid #cccccc;
     margin:1em 0;
     padding:0;
@@ -91,4 +102,22 @@ hr {
 
 input, select {
     vertical-align:middle;
+}
+
+/* Enforce body to take whole page space */
+html, body {
+    min-width: 100%;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    height: 100%;
+    max-height: 100%;
+}
+
+/* apply a natural box layout model to all elements, but allowing components to change */
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
 }

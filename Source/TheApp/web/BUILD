@@ -60,6 +60,9 @@ closure_js_library(
 web_app(
     name = "theapp",
     entry_points = ["badu.web.theapp"],
+    extra_dev_resources = [
+        "//BaduUI/platforms/web:index_dev_html"
+    ],
     deps = [
         ":app",
     ],

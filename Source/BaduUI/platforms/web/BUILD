@@ -36,7 +36,18 @@ alias(
     actual = "//BaduUI/platforms/web/src/main/resources/public/css:badu_ui_web_css",
 )
 alias(
+    name = "badu_ui_web_css_themes",
+    actual = "//BaduUI/platforms/web/src/main/resources/public/css/themes:badu_ui_web_css_themes",
+)
+alias(
     name = "badu_ui_web_images",
     actual = "//BaduUI/platforms/web/src/main/resources/public/images:badu_ui_web_images",
 )
-
+alias(
+    name = "index_html",
+    actual = "//BaduUI/platforms/web/src/main/resources/public:index_html",
+)
+alias(
+    name = "index_dev_html",
+    actual = "//BaduUI/platforms/web/src/main/resources/public:index_dev_html",
+)

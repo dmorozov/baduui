@@ -15,8 +15,7 @@ j2cl_library(
     name = "the_app-j2cl",
     visibility = ["//visibility:public"],
     srcs = glob([
-        "src/main/java/**/*.java",
-        "src/main/resources/**/*.*"
+        "src/main/java/**/*.java"
     ]),
     deps = [
         "//BaduUI/common/core:badu-ui-core-j2cl",

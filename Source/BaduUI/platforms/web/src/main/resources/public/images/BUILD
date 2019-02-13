@@ -6,6 +6,6 @@ web_library(
     name = "badu_ui_web_images",
     path = "/images",
     srcs = [
-        "gear.png"
+        "drawer-btn.png"
     ],
 )
