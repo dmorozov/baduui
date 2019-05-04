@@ -1,23 +1,35 @@
 package com.badu.ui.core;
 
-import com.badu.ui.core.components.BUIWidget;
+import com.badu.ui.core.components.AppRoot;
+import com.badu.ui.core.listeners.BUIAppLifecycle;
+import com.badu.ui.core.themes.ITheme;
 import com.badu.ui.core.utils.PlatformLogger;
 
-public abstract class BUIApp {
+public abstract class BUIApp extends AppRoot implements BUIAppLifecycle {
 
-   public BUIApp(final BUIPlatform platform) {
+   public BUIApp(final BUIPlatform platform, final ITheme theme) {
       BUIPlatform.PLATFORM = platform;
+      BUIPlatform.THEME = theme;
+      BUIPlatform.PLATFORM.addAppLifecycleListener(this);
    }
-
-   protected abstract BUIWidget createRoot();
 
    public void start() {
-//      initResources();
-//      createEventBus();
-//      createUI();
+      createEventBus();
+      this.onInitialized();
+
+      final RenderContext context = new RenderContext();
+      createUI(context);
+
+      this.render(context, null);
+
+      this.onStarted();
    }
 
-   private void initResources() {
+   private void createUI(final RenderContext context) {
+      build(context);
+   }
+
+   private void createEventBus() {
    }
 
    protected BUIPlatform platform() {
@@ -27,4 +39,13 @@ public abstract class BUIApp {
    protected PlatformLogger log() {
       return BUIPlatform.PLATFORM.log();
    }
+
+   @Override
+   public void onInitialized() {}
+
+   @Override
+   public void onStarted() {}
+
+   @Override
+   public void onStopped() {}
 }

@@ -8,4 +8,8 @@ public class WebLogger implements PlatformLogger {
    @Override public void debug(Object... msg) {
       DomGlobal.console.log(msg);
    }
+
+   @Override public void error(Object... msg) {
+      DomGlobal.console.error(msg);
+   }
 }

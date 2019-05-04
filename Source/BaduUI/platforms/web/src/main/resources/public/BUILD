@@ -12,6 +12,7 @@ web_library(
         "//BaduUI/platforms/web:badu_ui_web_css",
         "//BaduUI/platforms/web:badu_ui_web_images",
         "//BaduUI/platforms/web:badu_ui_web_css_themes",
+        "//BaduUI/platforms/web:badu_ui_app_icon"
     ],
     suppress = [
         "strictDependencies"
@@ -31,5 +32,6 @@ web_library(
         "//BaduUI/platforms/web:badu_ui_web_css",
         "//BaduUI/platforms/web:badu_ui_web_images",
         "//BaduUI/platforms/web:badu_ui_web_css_themes",
+        "//BaduUI/platforms/web:badu_ui_app_icon"
     ],    
 )

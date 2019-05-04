@@ -1,0 +1,51 @@
+<box layout="horizontal">
+    <drawer id="drawer" listenToEvent="app:drawer:toggle" flexGrow="0" flexShrink="1" flexBasis="260">
+        <slot name="drawer-slot-header">
+            <text text="This is heaser" />
+        </slot>
+        <slot name="drawer-slot-body">
+            <menu>
+                <menu-item padding="14" triggerEvent="app:show:view" eventArgs="page-view1">
+                    <text text="Item 1" />
+                </menu-item>
+                <menu-item padding="14" triggerEvent="app:show:view" eventArgs="page-view2">
+                    <text text="Item 2" />
+                </menu-item>
+                <menu-item padding="14" triggerEvent="app:show:view" eventArgs="page-view3">
+                    <text text="Item 3" />
+                </menu-item>
+                <menu-item padding="14" triggerEvent="app:show:view" eventArgs="page-view4">
+                    <text text="Item 4" />
+                </menu-item>
+                <menu-item padding="14" triggerEvent="app:show:view" eventArgs="page-view5">
+                    <text text="Item 5" />
+                </menu-item>
+            </menu>
+        </slot>
+        <slot name="drawer-slot-footer">
+            <text text="This is footer" />
+        </slot>
+    </drawer>
+
+    <box flexGrow="1" flexShrink="1" flexBasis="auto">
+        <box layout="vertical">
+            <box flexGrow="0" flexShrink="1" flexBasis="40">
+                <box layout="horizontal" zorder="high">
+                    <box id="drawerBtn" triggerEvent="app:drawer:toggle" flexGrow="0" flexShrink="1" flexBasis="auto" width="80" padding="10">
+                        <image width="26" height="26" src="images/drawer-btn.png" />
+                    </box>
+                    <box flexGrow="1" flexShrink="1" flexBasis="auto">
+                        <box layout="horizontal" justifyContent="center">
+                            <box>
+                                <text text="This is title" />
+                            </box>
+                        </box>
+                    </box>
+                </box>
+            </box>
+            <div listenToEvent="app:show:view" flexGrow="1" flexShrink="1" flexBasis="auto" padding="20">
+                <text text="Here is content" />
+            </div>
+        </box>
+    </box>
+</box>

@@ -22,3 +22,14 @@ j2cl_library(
         "//BaduUI/common/components:badu-ui-components-j2cl",
     ],
 )
+
+alias(
+    name = "app_images_web",
+    actual = "//TheApp/app/src/main/resources/assets/images:app_images_web",
+    visibility = ["//visibility:public"],
+)
+alias(
+    name = "app_templates_web",
+    actual = "//TheApp/app/src/main/resources/assets/templates:app_templates_web",
+    visibility = ["//visibility:public"],
+)

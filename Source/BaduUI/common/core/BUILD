@@ -6,7 +6,6 @@ java_library(
     srcs = glob(["src/main/java/**/*.java"]),
     resources = glob(["src/main/resources/**/*.*"]),
     deps = [
-        # add dependencies here
     ]
 )
 
@@ -18,6 +17,5 @@ j2cl_library(
         "src/main/resources/**/*.*"
     ]),
     deps = [
-        # add dependencies here
     ],
 )

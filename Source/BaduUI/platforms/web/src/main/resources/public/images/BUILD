@@ -9,3 +9,11 @@ web_library(
         "drawer-btn.png"
     ],
 )
+
+web_library(
+    name = "badu_ui_app_icon",
+    path = "/",
+    srcs = [
+        "favicon.ico"
+    ],
+)

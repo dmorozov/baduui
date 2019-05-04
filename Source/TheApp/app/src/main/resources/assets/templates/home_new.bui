@@ -1,0 +1,74 @@
+<box layout="horizontal">
+    <!--
+    <drawer>
+        <slot target="drawer-header">
+            <box id="test" backgroundColor="#262626" height="80" padding="8"><text color="#ffffff" text="Header" /></box>
+        </slot>
+        <slot target="drawer-menu">
+            <menu>
+                <menu-item borderBottom="1px solid lightgray" triggerEvent="app:show:view" eventArgs="page-view1">
+                    <text text="Item 1" />
+                </menu-item>
+                <menu-item borderBottom="1px solid lightgray" triggerEvent="app:show:view" eventArgs="page-view1">
+                    <text text="Item 2" />
+                </menu-item>
+                <menu-item borderBottom="1px solid lightgray" triggerEvent="app:show:view" eventArgs="page-view1">
+                    <text text="Item 3" />
+                </menu-item>
+                <menu-item borderBottom="1px solid lightgray" triggerEvent="app:show:view" eventArgs="page-view1">
+                    <text text="Item 4" />
+                </menu-item>
+                <menu-item borderBottom="1px solid lightgray" triggerEvent="app:show:view" eventArgs="page-view1">
+                    <text text="Item 5" />
+                </menu-item>
+            </menu>
+        </slot>
+        <slot target="drawer-footer">
+            <box layout="horizontal" justifyContent="center">
+                <image width="138" height="39" src="images/logo.png" />
+            </box>
+        </slot>
+    </drawer>
+    -->
+    <box id="drawer" zorder="medium" backgroundColor="#eaeaea" flexGrow="0" flexShrink="1" flexBasis="260">
+        <menu>
+            <menu-item borderBottom="1px solid lightgray" triggerEvent="app:show:view" eventArgs="page-view1">
+                <text text="Item 1" />
+            </menu-item>
+            <menu-item borderBottom="1px solid lightgray" triggerEvent="app:show:view" eventArgs="page-view2">
+                <text text="Item 2" />
+            </menu-item>
+            <menu-item borderBottom="1px solid lightgray" triggerEvent="app:show:view" eventArgs="page-view3">
+                <text text="Item 3" />
+            </menu-item>
+            <menu-item borderBottom="1px solid lightgray" triggerEvent="app:show:view" eventArgs="page-view4">
+                <text text="Item 4" />
+            </menu-item>
+            <menu-item borderBottom="1px solid lightgray" triggerEvent="app:show:view" eventArgs="page-view5">
+                <text text="Item 5" />
+            </menu-item>
+        </menu>
+    </box>
+
+    <box flexGrow="1" flexShrink="1" flexBasis="auto">
+        <box layout="vertical">
+            <box flexGrow="0" flexShrink="1" flexBasis="40">
+                <box layout="horizontal" zorder="high">
+                    <box id="drawerBtn" flexGrow="0" flexShrink="1" flexBasis="auto" width="80" padding="10">
+                        <image width="26" height="26" src="images/drawer-btn.png" />
+                    </box>
+                    <box flexGrow="1" flexShrink="1" flexBasis="auto">
+                        <box layout="horizontal" justifyContent="center">
+                            <box>
+                                <text text="This is title" />
+                            </box>
+                        </box>
+                    </box>
+                </box>
+            </box>
+            <contentContainer listenToEvent="app:show:view" flexGrow="1" flexShrink="1" flexBasis="auto" padding="20">
+                <text text="Here is content" />
+            </contentContainer>
+        </box>
+    </box>
+</box>

@@ -3,6 +3,7 @@ package(default_visibility = ["//visibility:public"])
 licenses(["notice"])  # Apache 2.0
 
 load("@com_google_j2cl//build_defs:rules.bzl", "j2cl_library")
+load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_library")
 
 java_library(
     name = "badu_ui_web",
@@ -11,7 +12,7 @@ java_library(
     ]),
     deps = [
         "@com_google_j2cl//:jsinterop-annotations",
-        "@projectlibs//:elemental2",
+        "@com_google_jsinterop_base//:jsinterop-base",
         "//BaduUI/common/core:badu-ui-core",
         "//BaduUI/common/components:badu-ui-components"
     ],
@@ -20,12 +21,11 @@ java_library(
 j2cl_library(
     name = "badu_ui_web-j2cl",
     srcs = glob([
-        "src/main/java/**/*.java",
-        "src/main/java/**/*.js",
+        "src/main/java/**/*.java"
     ]),
     deps = [
         "@com_google_j2cl//:jsinterop-annotations-j2cl",
-        "@projectlibs//:elemental2-j2cl",
+        "@com_google_jsinterop_base//:jsinterop-base-j2cl",
         "//BaduUI/common/core:badu-ui-core-j2cl",
         "//BaduUI/common/components:badu-ui-components-j2cl"
     ],
@@ -50,4 +50,8 @@ alias(
 alias(
     name = "index_dev_html",
     actual = "//BaduUI/platforms/web/src/main/resources/public:index_dev_html",
+)
+alias(
+    name = "badu_ui_app_icon",
+    actual = "//BaduUI/platforms/web/src/main/resources/public/images:badu_ui_app_icon",
 )

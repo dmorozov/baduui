@@ -14,9 +14,7 @@ java_library(
     deps = [
         "//TheApp/app:the_app",
         "//BaduUI/platforms/web:badu_ui_web",
-        "@projectlibs//:jsinterop",
-        "@com_google_jsinterop_annotations_head//jar",
-        "@projectlibs//:elemental2",
+        "@com_google_j2cl//:jsinterop-annotations",
     ],
 )
 j2cl_library(
@@ -25,7 +23,7 @@ j2cl_library(
         "src/main/java/**/*.java"
     ]),
     deps = [
-        "@projectlibs//:jsinterop-j2cl",
+        "@com_google_j2cl//:jsinterop-annotations-j2cl",
         "//TheApp/app:the_app-j2cl",
         "//BaduUI/platforms/web:badu_ui_web-j2cl",
     ],
@@ -33,11 +31,16 @@ j2cl_library(
 
 closure_js_library(
     name = "app",
-    srcs = ["src/main/java/com/badu/theapp/web/app.js"],
+    srcs = [
+        "src/main/java/com/badu/theapp/web/app.js",
+    ],
     deps = [
         ":main_app-j2cl",
         "//BaduUI/platforms/web:badu_ui_web-j2cl",
     ],
+    # suppress = [
+    #     "superfluousSuppress", "strictDependencies", "lintChecks"
+    # ]
 )
 
 # This is the bazel target that compiles and optimizes whole JavaScript / J2CL app.
@@ -61,13 +64,16 @@ web_app(
     name = "theapp",
     entry_points = ["badu.web.theapp"],
     extra_dev_resources = [
-        "//BaduUI/platforms/web:index_dev_html"
     ],
     deps = [
         ":app",
     ],
     assets = [
         "//BaduUI/platforms/web:badu_ui_web_css",
-        "//BaduUI/platforms/web:badu_ui_web_images"
+        "//BaduUI/platforms/web:badu_ui_web_images",
+        "//BaduUI/platforms/web:badu_ui_app_icon",
+        "//BaduUI/platforms/web:index_dev_html",
+        "//TheApp/app:app_templates_web",
+        "//TheApp/app:app_images_web",
     ]
 )

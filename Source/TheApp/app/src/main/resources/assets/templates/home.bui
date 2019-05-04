@@ -1,0 +1,38 @@
+<box layout="horizontal">
+    <box id="drawer" zorder="medium" backgroundColor="#eaeaea" flexGrow="0" flexShrink="1" flexBasis="260">
+        <box layout="vertical">
+            <box id="test" backgroundColor="#262626" height="80" padding="8"><text color="#ffffff" text="Header" /></box>
+            <box padding="14" borderBottom="1px solid lightgray"><text text="Item 1" /></box>
+            <box padding="14" borderBottom="1px solid lightgray"><text text="Item 2" /></box>
+            <box padding="14" borderBottom="1px solid lightgray"><text text="Item 3" /></box>
+            <box padding="14" borderBottom="1px solid lightgray"><text text="Item 4" /></box>
+            <box padding="14" borderBottom="1px solid lightgray"><text text="Item 5" /></box>
+            <box padding="8" verticalAlign="bottom">
+                <box layout="horizontal" justifyContent="center">
+                    <image width="138" height="39" src="images/logo.png" />
+                </box>
+            </box>
+        </box>
+    </box>
+    <box flexGrow="1" flexShrink="1" flexBasis="auto">
+        <box layout="vertical">
+            <box flexGrow="0" flexShrink="1" flexBasis="40">
+                <box layout="horizontal" zorder="high">
+                    <box id="drawerBtn" flexGrow="0" flexShrink="1" flexBasis="auto" width="80" padding="10">
+                        <image width="26" height="26" src="images/drawer-btn.png" />
+                    </box>
+                    <box flexGrow="1" flexShrink="1" flexBasis="auto">
+                        <box layout="horizontal" justifyContent="center">
+                            <box>
+                                <text text="This is title" />
+                            </box>
+                        </box>
+                    </box>
+                </box>
+            </box>
+            <box flexGrow="1" flexShrink="1" flexBasis="auto" padding="20">
+                <text text="Here is content" />
+            </box>
+        </box>
+    </box>
+</box>
