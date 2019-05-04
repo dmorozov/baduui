@@ -1,0 +1,50 @@
+/* Basic layout blocks */
+.bui-layout-vertical {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100%;
+}
+.bui-layout-vertical-reverse {
+  display: flex;
+  flex-flow: column-reverse nowrap;
+  height: 100%;
+}
+.bui-layout-horizontal {
+  display: flex;
+  flex-flow: row nowrap;
+  height: 100%;
+}
+.bui-layout-horizontal-reverse {
+  display: flex;
+  flex-flow: row-reverse nowrap;
+  height: 100%;
+}
+
+.bui-clickable {
+  cursor: pointer;
+}
+.bui-hidable {
+  display: none;
+}
+.bui-hidable.active {
+  display: block;
+}
+
+.bui-zorder-high {
+  -webkit-box-shadow: 4px 2px 8px 1px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    4px 2px 8px 1px #ccc;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         4px 2px 8px 1px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+  z-index: 1000;
+}
+.bui-zorder-medium {
+  -webkit-box-shadow: 1px 1px 4px 1px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    1px 1px 4px 1px #ccc;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         1px 1px 4px 1px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+  z-index: 500;
+}
+.bui-zorder-low {
+  -webkit-box-shadow: 1px 1px 4px 1px #ddd;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    1px 1px 4px 1px #ddd;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         1px 1px 4px 1px #ddd;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+  z-index: 100;
+}

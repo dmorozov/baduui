@@ -1,0 +1,62 @@
+package elemental2.dom;
+
+import elemental2.dom.ErrorEvent;
+import elemental2.dom.Event;
+import elemental2.dom.RegistrationOptions;
+import elemental2.dom.ServiceWorkerRegistration;
+import elemental2.promise.Promise;
+import elemental2.dom.EventTarget;
+import jsinterop.annotations.JsProperty;
+import jsinterop.annotations.JsFunction;
+import elemental2.dom.ServiceWorker;
+import java.lang.Object;
+import java.lang.String;
+import jsinterop.annotations.JsType;
+import jsinterop.annotations.JsPackage;
+
+@JsType(isNative = true, namespace = JsPackage.GLOBAL)
+public interface ServiceWorkerContainer extends EventTarget {
+    @JsFunction
+    public interface OncontrollerchangeFn {
+        Object onInvoke(Event p0);
+    }
+
+    @JsFunction
+    public interface OnerrorFn {
+        Object onInvoke(ErrorEvent p0);
+    }
+
+    @JsProperty
+    ServiceWorker getController();
+
+    @JsProperty
+    ServiceWorkerContainer.OncontrollerchangeFn getOncontrollerchange();
+
+    @JsProperty
+    ServiceWorkerContainer.OnerrorFn getOnerror();
+
+    @JsProperty
+    Promise<ServiceWorkerRegistration> getReady();
+
+    Promise<ServiceWorkerRegistration> getRegistration();
+
+    Promise<ServiceWorkerRegistration> getRegistration(String documentURL);
+
+    Promise<ServiceWorkerRegistration[]> getRegistrations();
+
+    Promise<ServiceWorkerRegistration> register(String scriptURL, RegistrationOptions options);
+
+    Promise<ServiceWorkerRegistration> register(String scriptURL);
+
+    @JsProperty
+    void setController(ServiceWorker controller);
+
+    @JsProperty
+    void setOncontrollerchange(ServiceWorkerContainer.OncontrollerchangeFn oncontrollerchange);
+
+    @JsProperty
+    void setOnerror(ServiceWorkerContainer.OnerrorFn onerror);
+
+    @JsProperty
+    void setReady(Promise<ServiceWorkerRegistration> ready);
+}

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>BADU UI widgets prototype</title>
+    <meta name="description" content="BADU UI widgets prototype">
+    <meta name="author" content="BADU">
+
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/baduui-core.css?v=1.0">
+    <link rel="stylesheet" href="css/baduui-dark-theme.css?v=1.0">
+
+    <style type="text/css">
+    .app-title {
+        padding: 6px;
+        font-size: 1.3em;
+        font-weight: bold;
+    }
+    </style>
+    <script type="text/javascript">
+        function toggleDrawer() {
+            var drawer = document.getElementById("drawer");
+            var classes = drawer.className.split(' ');
+            if(classes.indexOf('active') < 0) {
+                drawer.className = drawer.className + ' active';
+            }
+            else {
+                classes.splice(classes.indexOf('active'),1)
+                drawer.className = classes.join(' ')
+            }
+        }
+    </script>  
+</head>
+<body>
+    <div id="test-app" class="bui-layout-horizontal">
+        <div id="drawer" class="bui-zorder-medium bui-hidable active" style="background-color: #eaeaea; flex: 0 1 260px;">
+            <div class="bui-layout-vertical">
+                <div style="height: 80px; padding: 8px; background-color: #262626; color: #ffffff;">Header</div>
+                <div style="padding: 14px; border-bottom: 1px solid lightgray;">Item 1</div>
+                <div style="padding: 14px; border-bottom: 1px solid lightgray;">Item 2</div>
+                <div style="padding: 14px; border-bottom: 1px solid lightgray;">Item 3</div>
+                <div style="padding: 14px; border-bottom: 1px solid lightgray;">Item 4</div>
+                <div style="padding: 14px; border-bottom: 1px solid lightgray;">Item 5</div>
+                <div style="padding: 8px; margin-top: auto;">
+                        <div class="bui-layout-horizontal" style="justify-content: center;">
+                            <img width="138px" height="39px" src="images/logo.png">
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div style="flex: 1 1 auto">
+            <div class="bui-layout-vertical">
+                <div style="flex: 0 1 40px;">
+                        <div class="bui-layout-horizontal bui-zorder-high">
+                            <div class="bui-clickable" onclick="toggleDrawer();" style="flex: 0 1 auto; width: 80px; padding: 10px;">
+                                    <img src="images/drawer-btn.png">
+                            </div>
+                            <div class="app-title" style="flex: 1 1 auto;">
+                                    <div class="bui-layout-horizontal" style="justify-content: center;"><div>This is title</div></div>
+                            </div>
+                        </div>                            
+                </div>
+                <div style="flex: 1 1 auto; padding: 20px;">
+                    Here is content
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

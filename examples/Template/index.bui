@@ -1,0 +1,38 @@
+<box layout="horizontal">
+     <box id="drawer" z_order="medium" toggleable="active" backgroundColor="#eaeaea" flexGrow="0" flexShrink="1" flexBasis="260">
+         <box layout="vertical">
+             <box backgroundColor="#262626" height="80" padding="8"><text color="#ffffff">Header</text></box>
+             <box padding="14" borderBottom="1px solid lightgray"><text>Item 1</text></box>
+             <box padding="14" borderBottom="1px solid lightgray"><text>Item 2</text></box>
+             <box padding="14" borderBottom="1px solid lightgray"><text>Item 3</text></box>
+             <box padding="14" borderBottom="1px solid lightgray"><text>Item 4</text></box>
+             <box padding="14" borderBottom="1px solid lightgray"><text>Item 5</text></box>
+             <box padding="8" verticalAlign="bottom">
+                     <box layout="horizontal" justifyContent="center">
+                         <image width="138" height="39" src="images/logo.png">
+                     </box>
+             </box>
+         </box>
+     </box>
+     <box flexGrow="1" flexShrink="1" flexBasis="auto">
+         <box layout="vertical">
+             <box flexGrow="0" flexShrink="1" flexBasis="40">
+                     <box layout="horizontal" z_order="high">
+                         <box id="drawerBtn" clickable="true" triggerTarget="#drawer" flexGrow="0" flexShrink="1" flexBasis="auto" width="80" padding="10">
+                                 <image width="26" height="26" src="images/drawer-btn.png">
+                         </box>
+                         <box flexGrow="1" flexShrink="1" flexBasis="auto">
+                           <box layout="horizontal" justifyContent="center">
+                              <box>
+                                 <text>This is title</text>
+                              </box>
+                           </box>
+                         </box>
+                     </box>
+             </box>
+             <box flexGrow="1" flexShrink="1" flexBasis="auto" padding="20">
+                 <text>Here is content</text>
+             </box>
+         </box>
+     </box>
+ </box>
