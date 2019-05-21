@@ -13,4 +13,31 @@ window["BaduUI"] = BaduUI;
 */
 
 const TheApp = goog.require('com.badu.theapp.web.TheApp');
-TheApp.startApp();
+
+/*
+jre:
+	checkedMode: undefined
+	checks:
+		api: undefined
+		bounds: undefined
+		checkLevel: undefined
+		critical: undefined
+		numeric: undefined
+		type: undefined
+	classMetadata: undefined
+
+if (jre && jre.checks && !jre.checks.checkLevel) {
+	jre.checks.checkLevel = 'NORMAL'
+}
+*/
+
+if (
+    document.readyState === "complete" ||
+    (document.readyState !== "loading" && !document.documentElement.doScroll)
+) {
+  TheApp.startApp();
+} else {
+  document.addEventListener("DOMContentLoaded", function() {
+   TheApp.startApp();
+  });
+}

@@ -15,17 +15,13 @@
  */
 package com.google.j2cl.samples.helloworldlib;
 
-import static org.junit.Assert.assertEquals;
-
 import com.badu.ui.platforms.web.BaduUI;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.testng.annotations.*;
+import static org.testng.Assert.*;
 
 /**
  * A simple Hello world test.
  */
-@RunWith(JUnit4.class)
 public class HelloWorldTest {
   @Test
   public void testHelloWorld() {

@@ -1,0 +1,2 @@
+/** @define {string} */
+//goog.define('jre.checks.checkLevel', 'NORMAL');

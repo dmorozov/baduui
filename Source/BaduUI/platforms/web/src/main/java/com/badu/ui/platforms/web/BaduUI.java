@@ -12,7 +12,7 @@ import jsinterop.annotations.JsType;
 public class BaduUI {
 
   public static String getHelloWorld() {
-    return "Yet another Hello from Java!";
+    return "Hello from Java!";
   }
 
 }

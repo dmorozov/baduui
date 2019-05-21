@@ -1,0 +1,6 @@
+
+include 'BaduUI:common:core', 'BaduUI:common:components'
+include 'BaduUI:platforms:web'
+
+include 'TheApp:app'
+include 'TheApp:webGwt'

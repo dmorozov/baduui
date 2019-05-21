@@ -2,10 +2,11 @@ package com.badu.ui.platforms.web;
 
 import com.badu.ui.core.utils.AttributeUtils;
 import com.badu.ui.core.xml.XmlNode;
-import elemental2.dom.Attr;
-import elemental2.dom.NamedNodeMap;
-import elemental2.dom.Node;
-import elemental2.dom.NodeList;
+import com.badu.ui.jsinterop.core.dom.Attr;
+import com.badu.ui.jsinterop.core.dom.NamedNodeMap;
+import com.badu.ui.jsinterop.core.dom.Node;
+import com.badu.ui.jsinterop.core.dom.NodeList;
+import com.badu.ui.jsinterop.core.util.DOMConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,11 +23,11 @@ public class WebXmlNode implements XmlNode {
 
    @Override public List<XmlNode> getChildren() {
       List<XmlNode> children = new ArrayList<>();
-      NodeList<Node> nodes = this.node.childNodes;
+      NodeList nodes = this.node.getChildNodes();
       if (null != nodes) {
-         for (int i = 0; i < nodes.length; i++) {
+         for (int i = 0; i < nodes.getLength(); i++) {
             Node node = nodes.item(i);
-            if (Node.TEXT_NODE == node.nodeType && AttributeUtils.isEmpty(node.nodeValue)) {
+            if (DOMConstants.NODE_TYPE_TEXT_NODE == node.getNodeType() && AttributeUtils.isEmpty(node.getNodeValue())) {
                continue;
             }
             children.add(new WebXmlNode(node));
@@ -37,17 +38,17 @@ public class WebXmlNode implements XmlNode {
    }
 
    @Override public String getTagName() {
-      String nodeName = this.node.nodeName;
+      String nodeName = this.node.getNodeName();
       return nodeName.indexOf('#') == 0 ? nodeName.substring(1) : nodeName;
    }
 
    @Override public Map<String, String> getAttributes() {
       Map<String, String> attributes = new HashMap<>();
-      NamedNodeMap<Attr> attrs = this.node.attributes;
+      NamedNodeMap<Attr> attrs = this.node.getAttributes();
       if (null != attrs) {
-         for (int i = 0; i < attrs.length; i++) {
+         for (int i = 0; i < attrs.getLength(); i++) {
             Node attr = attrs.item(i);
-            attributes.put(attr.nodeName, attr.nodeValue);
+            attributes.put(attr.getNodeName(), attr.getNodeValue());
          }
       }
       return attributes;

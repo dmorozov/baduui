@@ -2,3 +2,9 @@ tools/*
 !tools/rules-baduui/
 .ijwb/
 bazel-*
+.vscode/
+.gradle/
+.idea/
+out/
+bin/
+gradle_build/

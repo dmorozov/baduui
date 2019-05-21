@@ -1,0 +1,16 @@
+<module rename-to="the_app">
+    <inherits name="com.google.gwt.core.Core"/>
+    <inherits name="jsinterop.base.Base" />
+
+    <inherits name="com.badu.BaduUI" />
+    <inherits name="com.badu.App" />
+
+    <add-linker name="sso"/>
+
+    <entry-point class="com.badu.web.client.gwt.EntryPoint"/>
+
+    <!-- tell the GWT compiler to create a single permutation which covers all locales and browsers -->
+    <collapse-all-properties />
+
+    <source path="client" />
+</module>

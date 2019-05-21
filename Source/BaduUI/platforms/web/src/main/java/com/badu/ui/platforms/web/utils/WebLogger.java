@@ -1,15 +1,15 @@
 package com.badu.ui.platforms.web.utils;
 
 import com.badu.ui.core.utils.PlatformLogger;
-import elemental2.dom.DomGlobal;
+import com.badu.ui.jsinterop.core.html.Window;
 
 public class WebLogger implements PlatformLogger {
 
    @Override public void debug(Object... msg) {
-      DomGlobal.console.log(msg);
+      Window.getConsole().log(msg);
    }
 
    @Override public void error(Object... msg) {
-      DomGlobal.console.error(msg);
+      Window.getConsole().error(msg);
    }
 }

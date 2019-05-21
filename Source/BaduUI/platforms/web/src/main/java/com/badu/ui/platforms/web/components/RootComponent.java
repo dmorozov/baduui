@@ -1,12 +1,12 @@
 package com.badu.ui.platforms.web.components;
 
-import elemental2.dom.DomGlobal;
-import elemental2.dom.HTMLBodyElement;
+import com.badu.ui.jsinterop.core.dom.HTMLElement;
+import com.badu.ui.jsinterop.core.html.Window;
 
-public class RootComponent extends AbstractComponent<HTMLBodyElement> {
+public class RootComponent extends AbstractComponent<HTMLElement> {
 
    public RootComponent() {
-      super(DomGlobal.document.body);
+      super(Window.getDocument().getBody());
    }
 
    @Override public void destroyComponent() {

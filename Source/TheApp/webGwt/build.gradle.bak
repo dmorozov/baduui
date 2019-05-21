@@ -1,0 +1,106 @@
+apply plugin: 'java'
+apply plugin: 'gwt'
+apply plugin: 'idea'
+apply plugin: 'application'
+apply plugin: 'war'
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath 'com.greenebeans.gwt:gwt-gradle-plugin:0.1'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+evaluationDependsOn(":BaduUI:common:core")
+evaluationDependsOn(":BaduUI:common:components")
+evaluationDependsOn(":BaduUI:platforms:web")
+evaluationDependsOn(":TheApp:app")
+
+dependencies {
+    // JS Interop
+    implementation "com.google.jsinterop:jsinterop-annotations:${jsinterop_version}"
+    implementation "com.google.jsinterop:base:${jsinterop_base_version}"
+
+    // CLI
+    implementation "org.jline:jline:${jline_version}"
+    implementation "org.jline:jline-terminal:${jline_version}"
+    implementation "org.jline:jline-terminal-jna:${jline_version}"
+
+    // Netty basic
+    implementation "io.netty:netty-transport:${netty_version}"
+    implementation "io.netty:netty-handler:${netty_version}"
+    implementation "io.netty:netty-codec-http:${netty_version}"
+    // Netty routing
+    implementation 'tv.cntt:netty-router:2.2.0'
+    implementation 'org.javassist:javassist:3.25.0-GA'
+
+    implementation project(':BaduUI:common:core'), project(':BaduUI:common:components'), project(':BaduUI:platforms:web')
+    implementation project(':TheApp:app')
+}
+
+def srcCore = files(project(':BaduUI:common:core').sourceSets.main.allJava.srcDirs) + files(project(':BaduUI:common:core').sourceSets.main.output.resourcesDir)
+def srcComponents = files(project(':BaduUI:common:components').sourceSets.main.allJava.srcDirs) + files(project(':BaduUI:common:components').sourceSets.main.output.resourcesDir)
+def srcPlatform = files(project(':BaduUI:platforms:web').sourceSets.main.allJava.srcDirs) + files(project(':BaduUI:platforms:web').sourceSets.main.output.resourcesDir)
+def srcApp = files(project(':TheApp:app').sourceSets.main.allJava.srcDirs) + files(project(':TheApp:app').sourceSets.main.output.resourcesDir)
+
+gwt {
+    gwtVersion = '2.8.2'
+
+    modules 'com.badu.web.TheApp'
+    devModules 'com.badu.web.TheAppDev'
+
+    superDev {
+        noPrecompile = true
+    }
+
+    compiler {
+        strict = true
+        //enableClosureCompiler = true
+        disableClassMetadata = false
+        disableCastChecking = false
+        // additional options
+        optimize = 0        // 0 .. 9
+        style = 'PRETTY'    // DETAILED, OBFUSCATED or PRETTY
+        localWorkers = 3
+        draftCompile = true
+        incremental = true
+    }
+
+    minHeapSize = "512M";
+    maxHeapSize = "1024M";
+    logLevel = 'INFO'
+
+    src += srcCore + srcComponents + srcPlatform + srcApp
+}
+
+tasks.withType(de.richsource.gradle.plugins.gwt.AbstractGwtActionTask) {
+    args '-generateJsInteropExports'
+}
+
+application {
+    mainClassName = 'com.badu.server.Server'
+    applicationDefaultJvmArgs = ['-Dport=8080']
+}
+
+//jar {
+//    def manifestClasspath = configurations.runtime.collect { it.getName() }.join(' ')
+//    manifest {
+//        attributes  'Implementation-Title': "Stub Admin instance to load test Manager registrations",
+//                'Implementation-Version': '0.0.1',
+//                'Built-By': System.getProperty('user.name'),
+//                'Built-Date': new Date(),
+//                'Built-JDK': System.getProperty('java.version'),
+//                'Built-Gradle': gradle.gradleVersion,
+//                'Class-Path': manifestClasspath,
+//                'Main-Class': "com.badu.AdminStubMain"
+//    }
+//}
+

@@ -1,0 +1,108 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'application'
+
+//buildscript {
+//    repositories {
+//        maven {
+//            url "https://plugins.gradle.org/m2/"
+//        }
+//    }
+//    dependencies {
+//        classpath 'com.greenebeans.gwt:gwt-gradle-plugin:0.1'
+//    }
+//}
+
+repositories {
+    mavenCentral()
+}
+
+evaluationDependsOn(":BaduUI:common:core")
+evaluationDependsOn(":BaduUI:common:components")
+evaluationDependsOn(":BaduUI:platforms:web")
+evaluationDependsOn(":TheApp:app")
+
+dependencies {
+    // JS Interop
+    compileOnly "com.google.jsinterop:jsinterop-annotations:${jsinterop_version}"
+    compileOnly "com.google.jsinterop:base:${jsinterop_base_version}"
+
+    // CLI
+    implementation "org.jline:jline:${jline_version}"
+    implementation "org.jline:jline-terminal:${jline_version}"
+    implementation "org.jline:jline-terminal-jna:${jline_version}"
+
+    // Netty basic
+    implementation "io.netty:netty-transport:${netty_version}"
+    implementation "io.netty:netty-handler:${netty_version}"
+    implementation "io.netty:netty-codec-http:${netty_version}"
+    // Netty routing
+    implementation 'tv.cntt:netty-router:2.2.0'
+    implementation 'org.javassist:javassist:3.25.0-GA'
+
+    compileOnly 'com.google.gwt:gwt-user:2.8.2'
+    compileOnly 'com.google.gwt:gwt-dev:2.8.2'
+
+    implementation project(':BaduUI:common:core'), project(':BaduUI:common:components'), project(':BaduUI:platforms:web')
+    implementation project(':TheApp:app')
+}
+
+def srcCore = files(project(':BaduUI:common:core').sourceSets.main.allJava.srcDirs) + files(project(':BaduUI:common:core').sourceSets.main.output.resourcesDir)
+def srcComponents = files(project(':BaduUI:common:components').sourceSets.main.allJava.srcDirs) + files(project(':BaduUI:common:components').sourceSets.main.output.resourcesDir)
+def srcPlatform = files(project(':BaduUI:platforms:web').sourceSets.main.allJava.srcDirs) + files(project(':BaduUI:platforms:web').sourceSets.main.output.resourcesDir)
+def srcApp = files(project(':TheApp:app').sourceSets.main.allJava.srcDirs) + files(project(':TheApp:app').sourceSets.main.output.resourcesDir)
+
+ext {
+    gwtBuildDir = "${project.projectDir}/src/main/resources/public/js"
+    extraDir = "${project.buildDir}/gwtextra"
+}
+
+task compileGWT(dependsOn: classes, type: JavaExec) {
+    inputs.files(files(sourceSets.main.java.srcDirs) + srcCore + srcComponents + srcPlatform + srcApp)
+    inputs.dir sourceSets.main.output.resourcesDir
+    outputs.dir gwtBuildDir
+
+    // Workaround for incremental build (GRADLE-1483)
+    outputs.upToDateSpec = new org.gradle.api.specs.AndSpec()
+
+    doFirst {
+        file(gwtBuildDir).mkdirs()
+        //
+        classpath.each { println it.name}
+    }
+
+    main = 'com.google.gwt.dev.Compiler'
+    classpath {[
+            // Java source
+            sourceSets.main.java.srcDirs,
+            sourceSets.main.output.resourcesDir,    // Generated resources
+            sourceSets.main.output.classesDirs,     // Genereated classes
+            sourceSets.main.compileClasspath,       // Deps
+            srcCore.files,
+            srcComponents.files,
+            srcPlatform.files,
+            srcApp.files
+    ]}
+
+    args = [
+            '-war', gwtBuildDir,
+            '-logLevel', 'INFO',
+            '-localWorkers', '2',
+            '-compileReport',
+            '-incremental',
+            '-extra', extraDir,
+            '-sourceLevel', '1.8',
+            '-style', 'PRETTY',
+            '-optimize', '0',
+            '-generateJsInteropExports',
+            '-draftCompile',              // Speeds up compile with 25%
+            'com.badu.web.TheApp'  // GWT module
+    ]
+
+    maxHeapSize = '512M'
+}
+
+application {
+    mainClassName = 'com.badu.server.Server'
+    applicationDefaultJvmArgs = ['-Dport=8080']
+}

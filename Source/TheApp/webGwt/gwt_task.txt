@@ -1,0 +1,67 @@
+dependencies {
+    // Compile GWT libs, needed for gwtCompile and the javaCompile
+    // Also includes the servlet-api
+    providedCompile 'com.google.gwt:gwt-user:2.4.0'
+    providedCompile 'com.google.gwt:gwt-dev:2.4.0'
+
+    // Needed for GWT compile and at runtime for RequestBuilder
+    // Specify two artifacts as workaround for GRADLE-1934
+    compile('javax.validation:validation-api:1.0.0.GA') {
+        artifact {
+            name = 'validation-api'
+            type = 'jar'
+        }
+        artifact {
+            name = 'validation-api'
+            type = 'jar'
+            classifier = 'sources'
+        }
+    }
+
+    // Runtime GWT libraries, should be included in WAR
+    runtime 'com.google.gwt:gwt-servlet:2.4.0'
+    runtime 'org.json:json:20090211'
+}
+
+ext {
+   gwtBuildDir = "${project.buildDir}/war"
+   extraDir = "${project.buildDir}/extra"
+}
+
+task compileGWT(dependsOn: classes, type: JavaExec) {
+   inputs.source sourceSets.main.java.srcDirs
+   inputs.dir sourceSets.main.output.resourcesDir
+   outputs.dir gwtBuildDir
+
+   // Workaround for incremental build (GRADLE-1483)
+   outputs.upToDateSpec = new org.gradle.api.specs.AndSpec()
+
+   doFirst {
+      file(gwtBuildDir).mkdirs()
+      //
+      classpath.each { println it.name}
+   }
+
+   main = 'com.google.gwt.dev.Compiler'
+   classpath {[
+      sourceSets.main.java.srcDirs,         // Java source
+      sourceSets.main.output.resourcesDir,  // Generated resources
+      sourceSets.main.output.classesDir,
+      // Genereated classes
+      sourceSets.main.compileClasspath
+      // Deps
+   ]}
+
+   args = [
+      '-war', gwtBuildDir,
+      '-logLevel', 'INFO',
+      '-localWorkers', '2',
+      '-compileReport',
+      '-extra', extraDir,
+      //
+      '-draftCompile',              // Speeds up compile with 25%
+      'com.test.gradle.GradleTest'  // GWT module
+   ]
+
+   maxHeapSize = '512M'
+}

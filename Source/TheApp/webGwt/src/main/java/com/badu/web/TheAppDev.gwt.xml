@@ -1,0 +1,5 @@
+<module rename-to="the_app">
+    <inherits name="com.badu.web.TheApp"/>
+
+    <add-linker name="xsiframe"/>
+</module>

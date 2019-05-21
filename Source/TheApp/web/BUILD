@@ -60,6 +60,7 @@ closure_js_library(
 #
 # See the installation instructions for ibazel here:
 # https://github.com/bazelbuild/bazel-watcher#installation
+"""
 web_app(
     name = "theapp",
     entry_points = ["badu.web.theapp"],
@@ -77,3 +78,32 @@ web_app(
         "//TheApp/app:app_images_web",
     ]
 )
+"""
+load("@com_google_j2cl//build_defs:rules.bzl", "j2cl_application")
+
+j2cl_application(
+    name = "theapp",
+    entry_points = ["badu.web.theapp"],
+    deps = [":app"],
+    extra_dev_resources = [
+        "//BaduUI/platforms/web:badu_ui_web_css",
+        "//BaduUI/platforms/web:badu_ui_web_images",
+        "//BaduUI/platforms/web:badu_ui_app_icon",
+        "//BaduUI/platforms/web:index_dev_html",
+        "//TheApp/app:app_templates_web",
+        "//TheApp/app:app_images_web",
+    ],
+)
+
+"""
+jre:
+	checkedMode: undefined
+	checks:
+		api: undefined
+		bounds: undefined
+		checkLevel: undefined
+		critical: undefined
+		numeric: undefined
+		type: undefined
+	classMetadata: undefined
+"""

@@ -10,10 +10,9 @@ import com.badu.ui.core.components.events.OnMouseMoveEvent;
 import com.badu.ui.core.components.events.OnMouseOutEvent;
 import com.badu.ui.core.components.events.OnMouseOverEvent;
 import com.badu.ui.platforms.web.utils.StringUtils;
-import elemental2.dom.Element;
-import elemental2.dom.HTMLElement;
-import elemental2.dom.MouseEvent;
 import jsinterop.base.Js;
+import com.badu.ui.jsinterop.core.dom.HTMLElement;
+import com.badu.ui.jsinterop.core.dom.MouseEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +43,7 @@ public abstract class AbstractComponent<T extends HTMLElement> implements Platfo
    }
 
    @Override public void destroyComponent() {
-      final Element childElement = getPlatformComponent();
+      final HTMLElement childElement = getPlatformComponent();
       childElement.remove();
    }
 
@@ -54,27 +53,27 @@ public abstract class AbstractComponent<T extends HTMLElement> implements Platfo
 
    public void setProperty(String name, String value) {
       final HTMLElement element = getPlatformComponent();
-      element.style.setProperty(name, value);
+      element.getStyle().setProperty(name, value);
    }
 
    public void setProperty(String name, String value, boolean important) {
       final HTMLElement element = getPlatformComponent();
       if (important) {
-         element.style.setProperty(name, value, "important");
+         element.getStyle().setProperty(name, value, "important");
       } else {
-         element.style.setProperty(name, value);
+         element.getStyle().setProperty(name, value);
       }
    }
 
    public void removeProperty(String name) {
       final HTMLElement element = getPlatformComponent();
-      element.style.removeProperty(name);
+      element.getStyle().removeProperty(name);
    }
 
    public void addClass(String cssClass) {
       final HTMLElement element = getPlatformComponent();
       if (!StringUtils.isEmpty(cssClass))
-         element.classList.add(cssClass);
+         element.getClassList().add(cssClass);
    }
 
    public void addClass(String... cssClasses) {
@@ -89,7 +88,7 @@ public abstract class AbstractComponent<T extends HTMLElement> implements Platfo
    public void removeClass(String cssClass) {
       final HTMLElement element = getPlatformComponent();
       if (!StringUtils.isEmpty(cssClass))
-         element.classList.remove(cssClass);
+         element.getClassList().remove(cssClass);
    }
 
    public void remove(String... cssClasses) {
@@ -111,7 +110,7 @@ public abstract class AbstractComponent<T extends HTMLElement> implements Platfo
    public boolean hasClass(String cssClass) {
       final HTMLElement element = getPlatformComponent();
       if (!StringUtils.isEmpty(cssClass)) {
-         return element.classList.contains(cssClass);
+         return element.getClassList().contains(cssClass);
       }
       return false;
    }
@@ -124,7 +123,7 @@ public abstract class AbstractComponent<T extends HTMLElement> implements Platfo
       final HTMLElement element = getPlatformComponent();
       final String className = ZORDERS.get(zorder);
       if (null != className) {
-         element.classList.add(className);
+         element.getClassList().add(className);
       }
       else {
          BUIPlatform.PLATFORM.log().error("Unknown zorder: " + zorder);
@@ -193,25 +192,25 @@ public abstract class AbstractComponent<T extends HTMLElement> implements Platfo
 
    @Override public void registerClickHandler(OnClickEvent onclick) {
       final HTMLElement element = getPlatformComponent();
-      element.onclick = event -> { onclick.onClick(); return Boolean.FALSE; };
+      element.setOnclick(event -> { onclick.onClick(); return Boolean.FALSE; });
    }
 
    @Override public void registerMouseOverHandler(OnMouseOverEvent onmouseover) {
       final HTMLElement element = getPlatformComponent();
-      element.onmouseover = event -> { onmouseover.onMouseOver(); return Boolean.TRUE; };
+      element.setOnmouseover(event -> { onmouseover.onMouseOver(); return Boolean.TRUE; });
    }
 
    @Override public void registerMouseMoveHandler(OnMouseMoveEvent onmousemove) {
       final HTMLElement element = getPlatformComponent();
-      element.onmousemove = event -> {
+      element.setOnmousemove(event -> {
          MouseEvent e = Js.cast(event);
-         onmousemove.onMouseMove(e.clientX, e.clientY); return Boolean.TRUE;
-      };
+         onmousemove.onMouseMove(e.getClientX(), e.getClientY()); return Boolean.TRUE;
+      });
    }
 
    @Override public void registerMouseOutHandler(OnMouseOutEvent onmouseout) {
       final HTMLElement element = getPlatformComponent();
-      element.onmouseout = event -> { onmouseout.onMouseOut(); return Boolean.TRUE; };
+      element.setOnmouseout(event -> { onmouseout.onMouseOut(); return Boolean.TRUE; });
    }
 
    public T getPlatformComponent() {

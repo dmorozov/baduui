@@ -1,6 +1,7 @@
 package com.badu.ui.platforms.web.utils;
 
-import elemental2.dom.DomGlobal;
+import com.badu.ui.jsinterop.core.dom.Document;
+import com.badu.ui.jsinterop.core.html.Window;
 
 public class DOMUtils {
 
@@ -11,8 +12,9 @@ public class DOMUtils {
    }
 
    public static void whenReady(DomIsReadyCallback callback) {
-      if (DOCUMENT_LOADING_STATE.equalsIgnoreCase(DomGlobal.document.readyState)) {
-         DomGlobal.document.addEventListener("DOMContentLoaded", (event) -> {
+      final Document document = Window.getDocument();
+      if (DOCUMENT_LOADING_STATE.equalsIgnoreCase(document.getReadyState())) {
+         document.addEventListener("DOMContentLoaded", (event) -> {
             callback.onReady();
          });
       }

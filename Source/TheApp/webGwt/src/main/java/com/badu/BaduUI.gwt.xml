@@ -1,0 +1,5 @@
+<module rename-to="the_app">
+    <inherits name="jsinterop.base.Base" />
+
+    <source path="ui" />
+</module>

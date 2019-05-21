@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>BADU UI widgets prototype</title>
+    <meta name="description" content="BADU UI widgets prototype">
+    <meta name="author" content="BADU">
+
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/baduui-core.css">
+    <link rel="stylesheet" href="css/themes/baduui-theme-dark.css">
+
+    <style type="text/css">
+    .app-title {
+        padding: 6px;
+        font-size: 1.3em;
+        text-align: center; 
+        vertical-align: middle; 
+        font-weight: bold;
+    }
+
+    #test-app .bui-drawer-item-header {
+        height: 80px;
+    }
+    </style>
+    <script type="text/javascript">
+        function toggleDrawer() {
+            var drawer = document.getElementById("drawer");
+            var classes = drawer.className.split(' ');
+            if(classes.indexOf('active') < 0) {
+                drawer.className = drawer.className + ' active';
+            }
+            else {
+                classes.splice(classes.indexOf('active'),1)
+                drawer.className = classes.join(' ')
+            }
+        }
+    </script>
+    <script src=theapp.js></script>
+</head>
+<body>
+</body>
+</html>

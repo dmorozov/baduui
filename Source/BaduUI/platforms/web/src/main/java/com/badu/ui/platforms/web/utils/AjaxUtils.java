@@ -1,8 +1,8 @@
 package com.badu.ui.platforms.web.utils;
 
 import com.badu.ui.core.exceptions.ResourceException;
-import elemental2.dom.XMLHttpRequest;
-import elemental2.promise.Promise;
+import com.badu.ui.jsinterop.core.dom.XMLHttpRequest;
+import com.badu.ui.jsinterop.core.promise.Promise;
 
 public class AjaxUtils {
 

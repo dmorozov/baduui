@@ -8,9 +8,9 @@ import com.badu.ui.core.components.platform.FlexboxWidget;
 import com.badu.ui.core.utils.AttributeUtils;
 import com.badu.ui.platforms.web.attributes.AlignItemsStyle;
 import com.badu.ui.platforms.web.attributes.JustifyContentStyle;
-import elemental2.dom.DomGlobal;
-import elemental2.dom.HTMLDivElement;
 import jsinterop.base.Js;
+import com.badu.ui.jsinterop.core.dom.HTMLDivElement;
+import com.badu.ui.jsinterop.core.html.Window;
 
 public class FlexboxComponent extends AbstractComponent<HTMLDivElement> implements FlexboxWidget {
 
@@ -24,15 +24,15 @@ public class FlexboxComponent extends AbstractComponent<HTMLDivElement> implemen
    }
 
    private static HTMLDivElement createComponent() {
-      return Js.cast(DomGlobal.document.createElement("div"));
+      return Js.cast(Window.getDocument().createElement("div"));
    }
 
    @Override public void setJustifyContent(JustifyContent justifyContent) {
-      getPlatformComponent().style.justifyContent = JustifyContentStyle.css(justifyContent);
+      getPlatformComponent().getStyle().setJustifyContent(JustifyContentStyle.css(justifyContent));
    }
 
    @Override public void setAlignItems(AlignItems alignItems) {
-      getPlatformComponent().style.alignItems = AlignItemsStyle.css(alignItems);
+      getPlatformComponent().getStyle().setAlignItems(AlignItemsStyle.css(alignItems));
    }
 
    @Override public void setLayout(FlexLayout flexLayout) {
@@ -53,16 +53,16 @@ public class FlexboxComponent extends AbstractComponent<HTMLDivElement> implemen
    }
 
    @Override public void setFlexGrow(double flexGrow) {
-      getPlatformComponent().style.flexGrow = flexGrow;
+      getPlatformComponent().getStyle().setFlexGrow(flexGrow);
    }
 
    @Override public void setFlexShrink(double flexShrink) {
-      getPlatformComponent().style.flexShrink = flexShrink;
+      getPlatformComponent().getStyle().setFlexShrink(flexShrink);
    }
 
    @Override public void setFlexBasis(String flexBasis) {
       final String value = !AttributeUtils.isNumeric(flexBasis) ? flexBasis :
               BUIPlatform.PLATFORM.getViewportManager().calculatePixelSize(Integer.parseInt(flexBasis)) + "px";
-      getPlatformComponent().style.flexBasis = value;
+      getPlatformComponent().getStyle().setFlexBasis(value);
    }
 }

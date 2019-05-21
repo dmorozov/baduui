@@ -1,0 +1,26 @@
+
+ext {
+    jsinterop_version = '1.0.2'
+    jsinterop_base_version = '1.0.0-RC1'
+    netty_version = '4.1.36.Final'
+    jline_version = '3.10.0'
+}
+
+allprojects {
+    plugins.withType(JavaPlugin) {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+
+        project.buildDir = file('gradle_build')
+
+        dependencies {
+            // Use TestNG framework, also requires calling test.useTestNG() below
+            testImplementation 'org.testng:testng:6.14.3'
+        }
+
+        test {
+            // Use TestNG for unit tests
+            useTestNG()
+        }
+    }
+}

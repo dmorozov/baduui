@@ -1,0 +1,10 @@
+.bui-drawer {
+    background-color: #eaeaea;
+}
+.bui-drawer-item {
+    border-bottom: 1px solid lightgray;
+}
+.bui-drawer-item-header {
+    background-color: #262626;
+    color: #ffffff;
+}

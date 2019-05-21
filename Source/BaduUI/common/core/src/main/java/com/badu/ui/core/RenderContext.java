@@ -9,14 +9,10 @@ public class RenderContext {
 
    public RenderContext(){}
 
-   private RenderContext(final Map<String, Object> props){
-      if (null != props && props.size() > 0) {
-         this.properties.putAll(props);
-      }
-   }
-
    public RenderContext clone() {
-      return new RenderContext(this.properties);
+      RenderContext copy = new RenderContext();
+      copy.properties.putAll(this.properties);
+      return copy;
    }
 
    public RenderContext setProperty(final String name, final Object value) {
