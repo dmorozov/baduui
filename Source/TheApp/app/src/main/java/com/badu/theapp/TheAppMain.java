@@ -9,7 +9,7 @@ import com.badu.ui.core.utils.TemplateParser;
 
 public abstract class TheAppMain extends BUIApp {
 
-   private static final String HOME_TEMPLATE = "templates/home2.bui";
+   private static final String HOME_TEMPLATE = "templates/home.bui";
 
    public TheAppMain(final BUIPlatform platform) {
       super(platform, new DefaultTheme());
@@ -20,6 +20,7 @@ public abstract class TheAppMain extends BUIApp {
 
       TemplateParser.loadFromTemplate(this, HOME_TEMPLATE, context)
               .whenReady(widget -> {
+                 BUIPlatform.PLATFORM.log().debug(" Template " + HOME_TEMPLATE + " successfully loaded. Rendering ...");
                  render(context);
               })
               .whenError(error -> {

@@ -44,7 +44,9 @@ public abstract class BUIApp extends AppRoot implements BUIAppLifecycle {
    public void onInitialized() {}
 
    @Override
-   public void onStarted() {}
+   public void onStarted() {
+      log().debug("The app is started!");
+   }
 
    @Override
    public void onStopped() {}

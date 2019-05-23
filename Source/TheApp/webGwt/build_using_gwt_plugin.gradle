@@ -1,0 +1,70 @@
+apply plugin: 'java'
+apply plugin: 'gwt'
+apply plugin: 'war'
+apply plugin: 'idea'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        // Sources: https://github.com/big-guy/gwt-gradle-plugin
+        classpath "com.greenebeans.gwt:gwt-gradle-plugin:0.1"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+evaluationDependsOn(":BaduUI:common:core")
+evaluationDependsOn(":BaduUI:common:components")
+evaluationDependsOn(":BaduUI:platforms:web")
+evaluationDependsOn(":TheApp:app")
+
+dependencies {
+    providedCompile "com.google.jsinterop:jsinterop-annotations:${jsinterop_version}"
+    providedCompile "com.google.jsinterop:base:${jsinterop_base_version}"
+
+    implementation project(':BaduUI:common:core'), project(':BaduUI:common:components'), project(':BaduUI:platforms:web')
+    implementation project(':TheApp:app')
+}
+
+def srcCore = files(project(':BaduUI:common:core').sourceSets.main.allJava.srcDirs) + files(project(':BaduUI:common:core').sourceSets.main.output.resourcesDir)
+def srcComponents = files(project(':BaduUI:common:components').sourceSets.main.allJava.srcDirs) + files(project(':BaduUI:common:components').sourceSets.main.output.resourcesDir)
+def srcPlatform = files(project(':BaduUI:platforms:web').sourceSets.main.allJava.srcDirs) + files(project(':BaduUI:platforms:web').sourceSets.main.output.resourcesDir)
+def srcApp = files(project(':TheApp:app').sourceSets.main.allJava.srcDirs) + files(project(':TheApp:app').sourceSets.main.output.resourcesDir)
+
+gwt {
+    gwtVersion = '2.8.2'
+
+    modules 'com.badu.web.TheApp'
+    devModules 'com.badu.web.TheAppDev'
+
+    superDev {
+        noPrecompile = true
+    }
+
+    compiler {
+        strict = true
+        //enableClosureCompiler = true
+        disableClassMetadata = false
+        disableCastChecking = false
+    }
+
+    minHeapSize = "512M";
+    maxHeapSize = "1024M";
+    logLevel = 'DEBUG'
+
+    src += srcCore + srcComponents + srcPlatform + srcApp
+}
+
+tasks.withType(de.richsource.gradle.plugins.gwt.AbstractGwtActionTask) {
+    args '-generateJsInteropExports'
+}
+

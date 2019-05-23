@@ -2,17 +2,6 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'application'
 
-//buildscript {
-//    repositories {
-//        maven {
-//            url "https://plugins.gradle.org/m2/"
-//        }
-//    }
-//    dependencies {
-//        classpath 'com.greenebeans.gwt:gwt-gradle-plugin:0.1'
-//    }
-//}
-
 repositories {
     mavenCentral()
 }
@@ -53,7 +42,7 @@ def srcPlatform = files(project(':BaduUI:platforms:web').sourceSets.main.allJava
 def srcApp = files(project(':TheApp:app').sourceSets.main.allJava.srcDirs) + files(project(':TheApp:app').sourceSets.main.output.resourcesDir)
 
 ext {
-    gwtBuildDir = "${project.projectDir}/src/main/resources/public/js"
+    gwtBuildDir = "${project.projectDir}/src/main/resources/assets"
     extraDir = "${project.buildDir}/gwtextra"
 }
 
@@ -102,7 +91,54 @@ task compileGWT(dependsOn: classes, type: JavaExec) {
     maxHeapSize = '512M'
 }
 
+task gwtSuperDev(type: JavaExec) {
+    inputs.files(files(sourceSets.main.java.srcDirs) + srcCore + srcComponents + srcPlatform + srcApp)
+    inputs.dir sourceSets.main.output.resourcesDir
+    outputs.dir gwtBuildDir
+
+    // Workaround for incremental build (GRADLE-1483)
+    outputs.upToDateSpec = new org.gradle.api.specs.AndSpec()
+
+    main = 'com.google.gwt.dev.codeserver.CodeServer'
+    classpath {[
+            // Java source
+            sourceSets.main.java.srcDirs,
+            sourceSets.main.output.resourcesDir,    // Generated resources
+            sourceSets.main.output.classesDirs,     // Genereated classes
+            sourceSets.main.compileClasspath,       // Deps
+            srcCore.files,
+            srcComponents.files,
+            srcPlatform.files,
+            srcApp.files
+    ]}
+
+    args = [
+            '-workDir', extraDir,
+            '-launcherDir', gwtBuildDir,
+            '-bindAddress', '127.0.0.1',
+            '-port', '9876',
+            '-generateJsInteropExports',
+            '-style', 'PRETTY',
+            '-sourceLevel', '1.8',
+            '-logLevel', 'DEBUG',
+            //'-noprecompile',
+            //'-noallowMissingSrc',             // -noallowMissingSrc or -allowMissingSrc
+            //'-failOnError',                   // -nofailOnError or -failOnError
+            //'-nocompileTest',                 // -compileTest or -nocompileTest
+            //'-XclosureFormattedOutput',       // -XnoclosureFormattedOutput
+            //'-XmethodNameDisplayMode', 'FULL',
+            'com.badu.web.TheAppDev'            // GWT module
+    ]
+
+    minHeapSize = '512m'
+    maxHeapSize = '1024m'
+}
+
 application {
     mainClassName = 'com.badu.server.Server'
     applicationDefaultJvmArgs = ['-Dport=8080']
 }
+
+// from project(':example-compile-only').tasks.compileGwt.outputs
+
+build.dependsOn compileGWT

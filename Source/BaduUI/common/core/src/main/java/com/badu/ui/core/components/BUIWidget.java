@@ -139,7 +139,6 @@ public abstract class BUIWidget<T extends BUIWidget, N extends PlatformComponent
    protected void OnAfterRender(final RenderContext context) {}
 
    public PlatformComponent render(final RenderContext context, final PlatformComponent parent) {
-
       OnBeforeRender(context);
 
       if (null != this.self) {

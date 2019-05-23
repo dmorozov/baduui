@@ -2,4 +2,5 @@
     <inherits name="com.badu.web.TheApp"/>
 
     <add-linker name="xsiframe"/>
+    <set-configuration-property name="devModeRedirectEnabled" value="true" />
 </module>

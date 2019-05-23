@@ -77,8 +77,8 @@ import static io.netty.handler.codec.http.HttpVersion.*;
  */
 public class HttpStaticFileServerHandler extends BaseHttpHandler {
 
-   private static final String INDEX_PAGE = "index_j2cl.html";
-   private static final String BASE_FOLDER = "public";
+   private static final String INDEX_PAGE = "index.html";
+   private static final String BASE_FOLDER = "assets";
 
    @Override
    public void channelRead0(ChannelHandlerContext ctx, HttpRequest request) throws Exception {

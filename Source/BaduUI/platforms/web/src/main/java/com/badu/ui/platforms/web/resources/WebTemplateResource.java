@@ -25,7 +25,7 @@ public class WebTemplateResource extends AbstractResource<XmlNode> {
                     successListener.OnReady(xmlParser.parse(response.asString()));
                  }
                  catch (Exception e) {
-                    errorListener.OnError(new ResourceException("Unable to fetch remote resource: " + templatePath, e));
+                    errorListener.OnError(new ResourceException("Unable to parse remote resource: " + templatePath, e));
                  }
                  return null;
               })

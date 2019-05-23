@@ -43,9 +43,9 @@
                     </box>
                 </box>
             </box>
-            <div listenToEvent="app:show:view" flexGrow="1" flexShrink="1" flexBasis="auto" padding="20">
+            <box listenToEvent="app:show:view" flexGrow="1" flexShrink="1" flexBasis="auto" padding="20">
                 <text text="Here is content" />
-            </div>
+            </box>
         </box>
     </box>
 </box>
