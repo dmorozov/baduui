@@ -128,10 +128,7 @@ public abstract class BUIWidget<T extends BUIWidget, N extends PlatformComponent
    }
 
    public PlatformComponent render(final RenderContext context) {
-      if (null != this.parent)
-         return render(context, this.parent);
-
-      return null;
+      return render(context, this.parent);
    }
 
    protected void OnBeforeRender(final RenderContext context) {}
@@ -139,17 +136,17 @@ public abstract class BUIWidget<T extends BUIWidget, N extends PlatformComponent
    protected void OnAfterRender(final RenderContext context) {}
 
    public PlatformComponent render(final RenderContext context, final PlatformComponent parent) {
+      this.parent = parent;
+
       OnBeforeRender(context);
 
-      if (null != this.self) {
+      boolean selfIsRendered = null != this.self;
+      if (selfIsRendered) {
          this.destroyComponent();
       }
-
-      this.parent = parent;
-      BUIPlatform.PLATFORM.log().debug("RENDER: create native component");
-      this.self = createNative();
-      BUIPlatform.PLATFORM.log().debug("RENDER: apply attributes");
-      if ("test".equals(this.id)) printAttributes();
+      else {
+         this.self = createNative();
+      }
 
       applyAttributes();
 
@@ -160,7 +157,7 @@ public abstract class BUIWidget<T extends BUIWidget, N extends PlatformComponent
             final PlatformComponent childNative = child.render(context.clone(), self);
             self.addChild(childNative);
          }
-         if (null != parent) {
+         if (null != parent && !selfIsRendered) {
             parent.addChild(self);
          }
       }
@@ -225,18 +222,16 @@ public abstract class BUIWidget<T extends BUIWidget, N extends PlatformComponent
    }
 
    protected void destroyComponent() {
-      BUIPlatform.PLATFORM.log().debug("=== on destroy ===");
       for (BUIWidget child : children) {
          child.destroyComponent();
       }
 
-      if (null != self) {
-         self.destroyComponent();
-      }
+      // Do not destroy itself. In other case parent will loose position where this component was originally rendered.
+      // if (null != self) self.destroyComponent();
    }
 
    protected abstract N createNative();
-   protected void build(final RenderContext context) {}
+   public void build(final RenderContext context) {}
 
    public List<BUIWidget> getChildren() {
       return children;

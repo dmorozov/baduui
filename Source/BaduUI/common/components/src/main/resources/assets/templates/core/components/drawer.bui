@@ -1,17 +1,13 @@
-<box id="drawer" zorder="medium" backgroundColor="#eaeaea">
-    <box>
+<template>
+    <box layout="vertical">
         <slotTarget name="drawer-slot-header">
             <box>Drawer is not implemented!</box>
         </slotTarget>
-    </box>
-    <box>
         <slotTarget name="drawer-slot-body">
             <box>Drawer is not implemented!</box>
         </slotTarget>
-    </box>
-    <box>
-        <slotTarget name="drawer-slot-footer">
+        <slotTarget name="drawer-slot-footer" padding="8" verticalAlign="bottom">
             <box>Drawer is not implemented!</box>
         </slotTarget>
     </box>
-</box>
+</template>

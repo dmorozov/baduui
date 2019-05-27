@@ -9,13 +9,13 @@ import com.badu.ui.core.utils.TemplateParser;
 
 public abstract class TheAppMain extends BUIApp {
 
-   private static final String HOME_TEMPLATE = "templates/home.bui";
+   private static final String HOME_TEMPLATE = "templates/home2.bui";
 
    public TheAppMain(final BUIPlatform platform) {
       super(platform, new DefaultTheme());
    }
 
-   @Override protected void build(final RenderContext context) {
+   @Override public void build(final RenderContext context) {
       BADUComponents.initialize();
 
       TemplateParser.loadFromTemplate(this, HOME_TEMPLATE, context)

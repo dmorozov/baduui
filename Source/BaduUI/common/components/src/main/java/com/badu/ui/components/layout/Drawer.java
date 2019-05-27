@@ -38,7 +38,7 @@ public class Drawer extends Box {
    }
 
    @Override
-   protected void build(final RenderContext context) {
+   public void build(final RenderContext context) {
       BADUComponents.initialize();
 
       TemplateParser.loadFromTemplate(this, DRAWER_TEMPLATE, context)

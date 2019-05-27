@@ -8,3 +8,4 @@ bazel-*
 out/
 bin/
 gradle_build/
+gwt-unitCache/

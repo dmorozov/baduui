@@ -12,7 +12,9 @@ Note: Some repos under heavy development and can be broken. So they can cloned f
 git clone https://github.com/dmorozov/j2cl j2cl
 git clone https://github.com/dmorozov/rules_closure rules_closure
 
-Build:
+========================================
+Build (Bazel):
+===============
 - cd Source
 - bazel build //TheApp/web:theapp
 
@@ -23,4 +25,16 @@ Run & watch for changes:
 goto in browser:
 http://localhost:6006/theapp_dev.html
 
-TBD: 
+=========================================
+Build (Gradle):
+================
+- cd Source
+- ./gradlew clean build
+
+Run & watch for changes:
+- ./gradlew :TheApp:webGwt:gwtSuperDev
+
+then run main class com.badu.server.Server from IDE 
+and goto in the browser:
+http://localhost:9090/
+

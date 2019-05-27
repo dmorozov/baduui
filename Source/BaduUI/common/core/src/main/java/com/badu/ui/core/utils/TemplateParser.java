@@ -20,6 +20,14 @@ import java.util.Map;
 
 public class TemplateParser {
 
+   private static final String TAG_TEMPLATE = "template";
+
+   private final RenderContext context;
+
+   public TemplateParser(final RenderContext context) {
+      this.context = context;
+   }
+
    public static <T extends BUIWidget<T, ?>> Resource<T> loadFromTemplate(T widget, String template, final RenderContext context) {
 
       return new AbstractResource<T>() {
@@ -32,21 +40,8 @@ public class TemplateParser {
             resource
                     .whenReady(t -> {
                        try {
-                          traverseTreeNode(widget, t, context);
-
-                          Map<String, XmlNode> slots = context.getProperty("unresolved-slots");
-                          if (null != slots) {
-                             for (Map.Entry<String, XmlNode> entry : slots.entrySet()) {
-                                final String slotName = entry.getKey();
-                                final SlotTarget slot = context.getProperty(slotName);
-                                if (null != slot) {
-                                   updateSlot(slot, entry.getValue(), context);
-                                }
-                                else {
-                                   BUIPlatform.PLATFORM.log().error("Unknown Slot tag with target name '" + slotName + "'");
-                                }
-                             }
-                          }
+                          final TemplateParser parser = new TemplateParser(context);
+                          parser.parse(widget, t);
 
                           successHandler.OnReady(widget);
                        }
@@ -62,31 +57,64 @@ public class TemplateParser {
       };
    }
 
-   private static void updateSlot(final SlotTarget slot, XmlNode rootNode, final RenderContext context)
+   public void parse(BUIWidget<?,?> widget, XmlNode rootNode) throws TemplateParsingException {
+      parseTreeNode(widget, rootNode);
+      postProcess();
+   }
+
+   private void postProcess() throws TemplateParsingException {
+      postProcessSlots();
+   }
+
+   protected void postProcessSlots() throws TemplateParsingException {
+      final Map<String, SlotTarget> slotTargets = getNodeMap(context, RenderContext.PROP_SLOT_TARGETS);
+      final Map<String, XmlNode> slots = getNodeMap(context, RenderContext.PROP_SLOT_CONTENTS);
+      if (null != slots) {
+         for (Map.Entry<String, XmlNode> entry : slots.entrySet()) {
+            final String slotName = entry.getKey();
+            final SlotTarget slot = slotTargets.get(slotName);
+            if (null != slot) {
+               updateSlot(slot, entry.getValue());
+               // remove slot content from the map because we've it already feed it to the slot target
+               slots.remove(slotName);
+            }
+            // else {
+            //    BUIPlatform.PLATFORM.log().error("Unknown Slot tag with target name '" + slotName + "'");
+            // }
+         }
+      }
+   }
+
+   protected void updateSlot(final SlotTarget slot, XmlNode rootNode)
            throws TemplateParsingException {
 
       final List<XmlNode> children = rootNode.getChildren();
       for (XmlNode childNode : children) {
-         traverseTreeNode(slot, childNode, context);
+         parseTreeNode(slot, childNode);
       }
    }
 
-   private static void traverseTreeNode(BUIWidget<?,?> widget, XmlNode rootNode, final RenderContext context) throws TemplateParsingException {
-      if (Slot.TAG.equalsIgnoreCase(rootNode.getTagName())) {
+   private void parseTreeNode(BUIWidget<?,?> widget, XmlNode rootNode) throws TemplateParsingException {
+      final String tagName = rootNode.getTagName();
+
+      if (TAG_TEMPLATE.equalsIgnoreCase(tagName)) {
+         final List<XmlNode> children = rootNode.getChildren();
+         for (XmlNode childNode : children) {
+            parseTreeNode(widget, childNode);
+         }
+      }
+      else if (Slot.TAG.equalsIgnoreCase(tagName)) {
          // slot should be dummy widget which just carry it's children but never render itself
          final String slotName = rootNode.getAttributes().get("name");
          if (null != slotName && slotName.length() > 0) {
-            final SlotTarget slot = context.getProperty(slotName);
+            final Map<String, SlotTarget> slotTargets = getNodeMap(context, RenderContext.PROP_SLOT_TARGETS);
+            final SlotTarget slot = slotTargets.get(slotName);
             if (null != slot) {
-               updateSlot(slot, rootNode, context);
+               updateSlot(slot, rootNode);
             }
             else {
-               Map<String, XmlNode> slots = context.getProperty("unresolved-slots");
-               if (null == slots) {
-                  slots = new HashMap<>();
-               }
+               final Map<String, XmlNode> slots = getNodeMap(context, RenderContext.PROP_SLOT_CONTENTS);
                slots.put(slotName, rootNode);
-               context.setProperty("unresolved-slots", slots);
             }
          }
          else {
@@ -94,23 +122,45 @@ public class TemplateParser {
          }
       }
       else {
-         final ComponentFactory factory = ComponentRegistry.resolveFactory(rootNode.getTagName());
+         final ComponentFactory factory = ComponentRegistry.resolveFactory(tagName);
          if (null == factory)
-            throw new TemplateParsingException("Unknown element with name '" + rootNode.getTagName() + "'");
-         final BUIWidget<?,?> rootWidget = factory.createComponent(rootNode.getTagName(), rootNode.getAttributes());
+            throw new TemplateParsingException("Unknown element with name '" + tagName + "'");
+         final BUIWidget<?,?> rootWidget = factory.createComponent(tagName, rootNode.getAttributes());
 
-         final List<XmlNode> children = rootNode.getChildren();
-         for (XmlNode childNode : children) {
-            traverseTreeNode(rootWidget, childNode, context);
+         if (SlotTarget.TAG.equalsIgnoreCase(tagName)) {
+            // slot target need to be created because we need placeholder widget to insert child content
+            final SlotTarget slotTarget = (SlotTarget) rootWidget;
+            final String slotName = slotTarget.getName();
+            Map<String, SlotTarget> slotTargets = getNodeMap(context, RenderContext.PROP_SLOT_TARGETS);
+            slotTargets.put(slotName, slotTarget);
+
+            final Map<String, XmlNode> slots = getNodeMap(context, RenderContext.PROP_SLOT_CONTENTS);
+            final XmlNode slot = slots.get(slotName);
+            if (null != slot) {
+               updateSlot(slotTarget, slot);
+               // remove slot content from the map because we've it already feed it to the slot target
+               slots.remove(slotName);
+            }
+         }
+         else {
+            final List<XmlNode> children = rootNode.getChildren();
+            for (XmlNode childNode : children) {
+               parseTreeNode(rootWidget, childNode);
+            }
          }
 
          widget.addChild(rootWidget);
-
-         if (SlotTarget.TAG.equalsIgnoreCase(rootNode.getTagName())) {
-            // slot target need to be created because we need placeholder widget to insert child content
-            final SlotTarget slot = (SlotTarget) rootWidget;
-            context.setProperty(slot.getName(), slot);
-         }
+         rootWidget.build(context);
       }
+   }
+
+   protected <V, T extends Map<String, V>> T getNodeMap(final RenderContext context, final String mapName) {
+      Map<String, Object> slots = context.getProperty(mapName);
+      if (null == slots) {
+         slots = new HashMap<>();
+         context.setProperty(mapName, slots);
+      }
+
+      return (T) slots;
    }
 }

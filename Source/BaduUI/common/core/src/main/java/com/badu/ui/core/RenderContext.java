@@ -5,6 +5,9 @@ import java.util.Map;
 
 public class RenderContext {
 
+   public static final String PROP_SLOT_CONTENTS = "slots-contents";
+   public static final String PROP_SLOT_TARGETS = "slot-targets";
+
    private final Map<String, Object> properties = new HashMap<>();
 
    public RenderContext(){}

@@ -9,7 +9,7 @@ import com.badu.ui.core.components.attributes.ZOrder;
 
 public class ExampleView extends Box {
 
-   protected void build(final RenderContext context) {
+   public void build(final RenderContext context) {
       this.children(
               new Box()
                       .setId("rootLayout")

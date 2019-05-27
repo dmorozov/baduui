@@ -46,6 +46,10 @@ ext {
     extraDir = "${project.buildDir}/gwtextra"
 }
 
+/**
+ * If we need to be get compileGWT task output in other project:
+ * from project(':example-compile-only').tasks.compileGwt.outputs
+ */
 task compileGWT(dependsOn: classes, type: JavaExec) {
     inputs.files(files(sourceSets.main.java.srcDirs) + srcCore + srcComponents + srcPlatform + srcApp)
     inputs.dir sourceSets.main.output.resourcesDir
@@ -138,7 +142,5 @@ application {
     mainClassName = 'com.badu.server.Server'
     applicationDefaultJvmArgs = ['-Dport=8080']
 }
-
-// from project(':example-compile-only').tasks.compileGwt.outputs
 
 build.dependsOn compileGWT

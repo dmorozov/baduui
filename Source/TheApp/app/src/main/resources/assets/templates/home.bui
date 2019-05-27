@@ -24,14 +24,20 @@
                     <box flexGrow="1" flexShrink="1" flexBasis="auto">
                         <box layout="horizontal" justifyContent="center">
                             <box>
-                                <text text="This is title" />
+                                <text text="This is title 2" />
                             </box>
                         </box>
                     </box>
                 </box>
             </box>
             <box flexGrow="1" flexShrink="1" flexBasis="auto" padding="20">
-                <text text="Here is content" />
+                <box layout="vertical">
+                    <text text="Here is content 1" />
+                    <text text="Here is content 2" />
+                    <text text="Here is content 3" />
+                    <text text="Here is content 4" />
+                    <text text="Here is content 5" />
+                </box>
             </box>
         </box>
     </box>
